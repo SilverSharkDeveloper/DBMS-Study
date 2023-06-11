@@ -1,0 +1,261 @@
+create database travelers;
+
+use travelers;
+
+
+SET foreign_key_checks = 1;
+
+
+truncate table tbl_user;
+truncate table trip_board;
+truncate table trip_item_board ;
+truncate table  tbl_user ;
+truncate table trip_board;
+
+
+select * from tbl_user tu ;
+
+
+create table tbl_user (
+	id int unsigned auto_increment primary key,
+	identification varchar(500) not null unique,
+	`password` varchar(500) not null,
+	name varchar (500) not null,
+	email varchar (500) not null unique,
+	phone_number varchar (500) not null unique,
+	nickname varchar (500) not null unique ,
+	birthday date not null,
+	gender varchar (500) not null,
+	introducing_message varchar(500),
+	status varchar (500) not null default "normal", /*일반회원normal 회원 탈퇴 요청시 ready->30일지나면 quit*/
+	created_date datetime  not null default  current_timestamp(),			
+	updated_date datetime  not null default  current_timestamp(),
+	`role` varchar(500)not null default "user",   /*일반회원 user 관리자 admin */
+	profil_image_name varchar (500),
+	profil_image_original_name varchar (500),
+	profil_image_size bigint
+)
+
+
+create table trip_board(
+	id int unsigned auto_increment primary key,
+	title varchar (500) not null,
+	content varchar (1000) not null,
+	start_date date not null,
+	end_date date not null,
+	register_date datetime not null default current_timestamp() ,
+	updated_date datetime not null default current_timestamp(), 
+	viewed_count int unsigned default 0,
+	user_id int unsigned not null,
+	constraint fk_trip_board_user foreign key(user_id)
+	references tbl_user(id) on delete cascade
+)
+
+
+create table trip_route_board(
+	id int unsigned auto_increment primary key,
+	title varchar (500) not null,
+	content varchar (1000) not null,
+	min_schedule tinyint unsigned not null,
+	max_schedule tinyint unsigned not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	viewed_count int unsigned default 0,
+	user_id int unsigned not null,
+	constraint fk_trip_route_board_user foreign key(user_id)
+	references tbl_user(id) on delete cascade
+)
+
+
+create table trip_route_course(
+	id int unsigned auto_increment primary key,
+	location varchar (500) not null,
+	board_id int unsigned not null,
+	constraint fk_course_board foreign key(board_id)
+	references trip_route_board(id) on delete cascade 
+)
+
+
+create table trip_item_board(
+	id int unsigned auto_increment primary key,
+	title varchar (500) not null,
+	content varchar (1000) not null,
+	item_name varchar (500) not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	viewed_count int unsigned default 0,
+	user_id int unsigned not null,
+	constraint fk_trip_item_board_user foreign key(user_id)
+	references tbl_user(id) on delete cascade
+)
+
+
+create table notice_board(
+	id int unsigned auto_increment primary key,
+	title varchar (500) not null,
+	content varchar (1000) not null,
+	register_date datetime default current_timestamp(),
+	updated_date datetime default current_timestamp(),
+	viewed_count int unsigned default 0,
+	admin_id int unsigned not null,
+	constraint fk_notice_board_admin foreign key(admin_id)
+	references tbl_user(id) on delete cascade
+)
+
+
+create table question_board(
+	id int unsigned auto_increment primary key,
+	title varchar (500) not null,
+	content varchar (1000) not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	responsed_status varchar(500) not null default "false",
+	user_id  int unsigned not null,
+	constraint fk_question_board_user foreign key(user_id)
+	references tbl_user(id) on delete cascade
+)
+
+
+
+create table trip_route_board_comment(
+	id int unsigned auto_increment primary key,
+	content varchar (1000) not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	user_id  int unsigned not null,
+	board_id  int unsigned not null,
+	constraint fk_route_board_comment_user foreign key(user_id)
+	references tbl_user(id) on delete cascade,
+	constraint fk_route_board_comment_board foreign key(board_id)
+	references trip_route_board(id) on delete cascade
+)
+
+
+create table trip_board_comment(
+	id int unsigned auto_increment primary key,
+	content varchar (1000) not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	user_id  int unsigned not null ,
+	board_id  int unsigned not null ,
+	constraint fk_trip_board_comment_user foreign key(user_id)
+	references tbl_user(id) on delete cascade,
+	constraint fk_trip_board_comment_board foreign key(board_id)
+	references trip_board(id) on delete cascade
+)
+
+
+create table trip_item_board_comment(
+	id int unsigned auto_increment primary key,
+	content varchar (1000) not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	user_id  int unsigned not null ,
+	board_id  int unsigned not null,
+	exchange_item_image_name varchar(500),
+	exchange_item_image_original_name varchar(500),
+	exchange_item_image_size bigint ,
+	constraint fk_item_board_comment_user foreign key(user_id)
+	references tbl_user(id) on delete cascade,
+	constraint fk_item_board_comment_board foreign key(board_id)
+	references trip_item_board(id) on delete cascade
+	
+)
+
+
+create table notice_board_comment(
+	id int unsigned auto_increment primary key,
+	content varchar (1000) not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	user_id  int unsigned not null ,
+	board_id  int unsigned not null,
+	constraint fk_notice_board_comment_user foreign key(user_id)
+	references tbl_user(id) on delete cascade,
+	constraint fk_notice_board_comment_board foreign key(board_id)
+	references notice_board(id) on delete cascade
+)
+
+
+create table question_board_comment(
+	id int unsigned auto_increment primary key,
+	content varchar (1000) not null,
+	register_date datetime not null default current_timestamp(),
+	updated_date datetime not null default current_timestamp(),
+	user_id  int unsigned not null,
+	board_id  int unsigned not null,
+	constraint fk_question_board_comment_user foreign key(user_id)
+	references tbl_user(id) on delete cascade,
+	constraint fk_question_board_comment_board foreign key(board_id)
+	references question_board(id) on delete cascade
+)
+
+
+
+create table board_image_file(
+	id int unsigned auto_increment primary key,
+	image_name varchar (500) not null,
+	image_original_name varchar (500) not null,
+	image_size bigint  not null,
+	trip_board_id int unsigned,
+	trip_route_board_id int unsigned,
+	trip_item_board_id int unsigned,
+	notice_board_id int unsigned,
+	constraint fk_trip_board_image foreign key(trip_board_id)
+	references trip_board(id) ,
+	constraint fk_trip_route_board_image foreign key(trip_route_board_id)
+	references trip_route_board(id) ,
+	constraint fk_item_board_image foreign key(trip_item_board_id)
+	references trip_item_board(id) on delete cascade,
+	constraint fk_notice_board_image foreign key(notice_board_id)
+	references notice_board(id) 
+)
+
+
+create table board_tag(
+	id int unsigned auto_increment primary key,
+	tag_name varchar (500) not null,
+	trip_board_id int unsigned,
+	trip_route_board_id int unsigned,
+	trip_item_board_id int unsigned,
+	constraint fk_trip_board_tag foreign key(trip_board_id)
+	references trip_board(id) ,
+	constraint fk_trip_route_board_tag foreign key(trip_route_board_id)
+	references trip_route_board(id) ,
+	constraint fk_item_board_tag foreign key(trip_item_board_id)
+	references trip_item_board(id) on delete cascade
+)
+
+
+create table board_vote(
+	id int unsigned auto_increment primary key,
+	user_id int unsigned not null,
+	trip_board_id int unsigned,
+	trip_route_board_id int unsigned,
+	trip_item_board_id int unsigned,
+	constraint fk_trip_board_vote foreign key(trip_board_id)
+	references trip_board(id) ,
+	constraint fk_trip_route_board_vote foreign key(trip_route_board_id)
+	references trip_route_board(id) ,
+	constraint fk_item_board_vote foreign key(trip_item_board_id)
+	references trip_item_board(id) on delete cascade
+)
+
+
+create table board_country_location(
+	id int unsigned auto_increment primary key,
+	country_name varchar (500) not null,
+	location_name varchar (500) not null,
+	trip_board_id int unsigned,
+	trip_route_board_id int unsigned,
+	trip_item_board_id int unsigned,
+	constraint fk_trip_board_location foreign key(trip_board_id)
+	references trip_board(id),
+	constraint fk_trip_route_board_location foreign key(trip_route_board_id)
+	references trip_route_board(id),
+	constraint fk_item_board_location foreign key(trip_item_board_id)
+	references trip_item_board(id) on delete cascade
+)
+
+
+

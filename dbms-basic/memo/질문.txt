@@ -1,0 +1,10 @@
+1.SELECT  sysdate, hire_date,sysdate - hire_date FROM employees;
+	에서 employees 라는 테이블에 sysdate라는 컬럼명이 없는데 데이터를 가져올 수 있는 이유? 또 갯수가 employees의 행의 갯수와 일치
+2.조건을 걸면 1행부터 검사후 가져오는 식이라면 순서는 항상 같은건가? 그냥 select문은 행의 순서는 상관없이 컬럼의 데이터를 모두출력하는데
+
+3.SELECT EMPLOYEE_ID ,SALARY ,DEPARTMENT_ID 
+FROM employees 
+WHERE EMPLOYEE_ID >150
+OR salary>10000
+AND DEPARTMENT_ID >50;
+

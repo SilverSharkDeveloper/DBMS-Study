@@ -1,0 +1,49 @@
+use travelers ;
+
+select * from tbl_user;
+set foreign_key_checks = 0;
+
+
+
+
+create table tbl_user (
+	id int unsigned auto_increment primary key,
+	identification varchar(500) not null ,
+	`password` varchar(500) not null,
+	name varchar (500) not null,
+	email varchar (500) not null ,
+	phone_number varchar (500) not null ,
+	nickname varchar (500) not null  ,
+	birthday date not null,
+	gender varchar (500) not null,
+	introducing_message varchar(500),
+	status varchar (500) not null default "normal", /*일반회원normal 회원 탈퇴 요청시 ready->30일지나면 quit*/
+	created_date datetime  not null default  current_timestamp(),			
+	updated_date datetime  not null default  current_timestamp(),
+	`role` varchar(500)not null default "user",   /*일반회원 user 관리자 admin */
+	profil_image_name varchar (500),
+	profil_image_original_name varchar (500),
+	profil_image_size bigint
+)
+
+INSERT INTO travelers.tbl_user
+(identification, `password`, name, email, phone_number, nickname, birthday, gender, introducing_message, status, created_date, updated_date, `role`)
+VALUES('admin@gmail.com', 'admin1234', '허은상', 'dmstkddlek123@naver.com', '01080128867', 'silvershark', '2000-01-03', 'man', '관리자1', 'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'admin');
+
+INSERT INTO travelers.tbl_user
+(identification, password, name, email, phone_number, nickname, birthday, gender, introducing_message, status, created_date, updated_date, `role`)
+VALUES('hds8231@naver.com', 'hds18334', '한동석','hds3314@naver.com', '010-2674-1514', '지존짱11동석', '2010-01-01', 'man', '나는짱이다',  'normal', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, 'user');
+
+select count(id) from tbl_user tu 
+where name like concat('%','허','%') ;
+
+SELECT id, identification, password, name, email,
+		phone_number, nickname, birthday, gender, introducing_message, status,
+		created_date, updated_date, `role`, profil_image_name,
+		profil_image_original_name, profil_image_size
+		FROM tbl_user
+		where name like concat('%','허','%') 
+		order by id desc
+		
+		DELETE FROM travelers.tbl_user
+		

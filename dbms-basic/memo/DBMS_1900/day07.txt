@@ -1,0 +1,58 @@
+OVER(PARTITION BY ORDER BY WINDWING절)
+	PARTITION BY 생략시 전체가 하나의 파티션
+	ORDER BY 절이 없다면 WINDOWING절 사용 불가
+	WINDOWING 절 생략시 RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW 가 기본값
+
+WINDOW함수의 종류
+1.집계함수
+
+2.순위함수(OVER에서 ORDER BY 를 생략할 수 없다, 매개변수를 받지 않는다),반드시 OVER를 써주어야한다. 순위 = 행과 행간의 관계를 의미하기 때문
+	RANK() : 순위를 계산하되 동률이 있다면 다음 순위는 건너 뜀 ->행의 갯수랑 순위가 일치
+	DENSE_RANK() : 순위를 계산하되 동률이 있더라도 다음 순위는 건너뛰지 않음 ->중복이 있따면 행의 갯수랑 순위가 다름
+	ROW_NUMBER() : 순위를 계산하되 동률을 계산하지 않음(행 번호랑 일치)
+
+
+3.순서함수 
+	가장 먼저 나오거나 가장 나중에 나오는 값들을 조회하는 함수
+	FIRST_VALUE() : 파티션 별 윈도우의 가장 첫번째 값
+	LAST_VALUE() : 파티션 별 윈도우의 가장 마지막 값
+	LAG() : 파티션 별 윈도우에서 이전 행의 값
+	LEAD() : 파티션 별 윈도우에서 이 다음 행의 값
+
+4.비율함수
+	RATIO_TO_REPORT(컬럼) : 파티션 내에서 총합에 대한 백분율 계산 (컬럼의 비율자체를 구해줌) 
+					  ORDER BY 쓸 수 없음 ->전체 중에 비율을 알려주기때문에 순서가 필요 없음
+	PERCENT_RANK() : 파티션 내에서 순서별 백분율 계산, 0부터 시작  
+					 ORDER BY 생략불가,순위 비율, 자기 자신의 행은 제외 ->자기순위-1/전체순위-1 -> RANK()함수 기준 데이터가 같으면 같은 순위
+	CUME_DIST() : 파티션 내에서 순서별 백분율 계산, 0보다 큰값부터 시작 
+					ORDER BY 생략 불가,  
+	NTILE(등분할 숫자) : N등분(남는 행은 앞에서부터 채워짐)
+
+
+조인 JION 
+	여러개의 테이블을 같이 조회한다.
+조인의 종류
+	자연 조인(NATURAL JOIN)
+		JOIN 조건에서 동일한 컬럼에서 동일한 값이 같은 것만을 JOIN 조건으로 생각
+		SELECT 컬럼명 FROM 테이블 1 NATURAL JOIN 테이블 2;
+			->알아서 두 테이블 속에 같은 이름을 가진 컬럼을 기준으로 JOIN이 된다. 
+				따라서 JOIN조건을 설정할 필요가 없다.
+	내부 조인/동등 조인(INNER JOIN)
+		다른 컬럼 혹은 동일한 컬럼에서 동일한 값이 같은 것만을 JOIN 조건으로 생각
+		SQL 표준(AMERICAN NATIONAL STANDARDS INSTITUE 문법)
+		SELECT 컬럼명 FROM 테이블1 INNTER(생략가능) JOIN 테이블 2
+		ON 조인조건;
+	권고사항 : 조인 테이블은 별칭을 사용하고, 컬럼은 어떤테이블 소속인지 명시적으로 표현
+			조인하는 테이블의 순서는 중심이 되는 테이블을 앞쪽에 서술
+
+	외부 조인(OUTER JOIN)
+	
+	
+
+
+
+
+
+
+
+**ORDER BY 자리에 CASE 표현식을 사용할 수 있다.

@@ -1,0 +1,72 @@
+메모장 글씨 크기 변경
+	->설정 ->글꼴 ->크기변경 -> 
+		단축키 : ctrl +, -, 스크롤 
+=================================
+ot 
+	이름 : 배상엽 강사
+	수업 : DataBase Management System 
+	시간 :  19:00 ~ 19:50 
+		20:00 ~ 20:50
+		21:00~ 21:50	
+	수업자료 : 
+	메일 : ci
+
+DBMS
+데이터 베이스 관리 시스템
+	데이터베이스에 여러개의 값을 저장하고, 삭제하고, 수정하고 검색하는데에 사용되는 관리 시스템
+
+절차형 데이터 베이스 관리 시스템
+계층형 데이터 베이스 관리 시스템
+
+RDBMS(관계형 데이터 베이스 관리 시스템)
+	데이터들이 서로 관계를 맺고 있다.
+	Oracl, MySQL, MariaDB, SQL Server, SQLite.... 
+
+오라클 DBMS 설치
+	오라클 11g express edition
+
+설치여부확인 : window r (cmd)창 >sqlplus로 확인
+
+oracle 비밀번호 설정시 바꾸거나 찾기가 안되므로 매우 중요 새롭게 설정하려며 다시 깔아야함
+
+오라클 DB 설치
+	설치링크 > windows 67 install링크 클릭 > 라이센스 동의 체크 후 다운로드 > 로그인 > zip파일 리소스에 옮기기 > 압축파일 해제 > setup.exe >비밀번호 설정
+
+Live sql
+	설치 없이 인터넷으로 오라클 dbms사용가능한 툴 >google live sql > 로그인 > start coding now
+
+오라클에서 제공하는 기본 계정
+	sys	
+		데이터베이스 자체를 관리하는 최고 관리자 계정 : 전체 프랜차이즈 매장을 관리하는 사람 느낌
+	system
+		데이터베이스를 운영하는 관리자 계정 : 프랜차이즈 점장느낌
+
+권한을 가진 채로 로그인하기
+	sysdba : 최고 관리자 권한(sys가 가질수 있는 권한)
+	sysoper:운영 관리자 권한(system이 갖는 권한)
+
+hr계정
+	연습용 데이터가 들어있는 계정인데, 잠겨있는상태
+	잠금 해제를 해야하는데 관리자가 가능
+->처음에 sys as sysdba로 관리자의 권한을 가진채로 sys계정으로 로그인 ->비밀번호는 다운받을때 설정한 비밀번호
+->hr계정 잠금 해제
+	alter user hr account unlock;
+->hr계정 비밀번호 설정
+	alter user hr identified by 비밀번호;
+->exit 으로 관리자 로그인 해제
+->hr로 설정한 비밀번호로 로그인
+
+
+IDE(integrated development environment)
+1. Dbeaver : 어디든 사용 가능
+2. SQL Developer :oracle db만 가능
+
+google dbeaver 검색 > windows용 installer > 다운된 설치 파일 실행 후 include자바는 제외후 설치
+
+Dbeaver 작업공간 설정(workspace 설정)
+	파일 > 작업공간 전환 >내 워크스페이스로 변경
+
+Dbeaver 오라클 연결하기
+	좌측 상단 데이터베이스 연결 클릭 > 오라클 클릭 > Database : ORCL -> XE로 변경
+	username : hr
+	비밀번호 입력 > test connection >download > connected 후 완료
